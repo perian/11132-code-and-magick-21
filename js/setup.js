@@ -57,4 +57,4 @@ for (let i = 0; i < wizards.length; i++) {
 
 wizardList.appendChild(fragment);
 
-let setupSimilar = document.querySelector(`.setup-similar`).classList.remove(`hidden`);
+document.querySelector(`.setup-similar`).classList.remove(`hidden`);

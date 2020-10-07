@@ -1,31 +1,31 @@
 'use strict';
 
 let CLOUD_WIDTH = 420;
-let CLOUD_HEIGHT = 270;
-let CLOUD_X = 100;
-let CLOUD_Y = 10;
-let GAP = 10;
+const CLOUD_HEIGHT = 270;
+const CLOUD_X = 100;
+const CLOUD_Y = 10;
+const GAP = 10;
 
-let font = {
+const font = {
   SIZE: `16px`,
   FONT_FAMILY: `PT Mono`,
   GAP: `16`
 };
 
-let TEXT_HEIGHT = 16;
-let TEXT_GAP = 20;
+const TEXT_HEIGHT = 16;
+const TEXT_GAP = 20;
 
-let BAR_GAP = 50;
-let BAR_WIDTH = 40;
-let BAR_HEIGHT_MAX = 150;
-let BAR_Y = CLOUD_HEIGHT - TEXT_HEIGHT;
+const BAR_GAP = 50;
+const BAR_WIDTH = 40;
+const BAR_HEIGHT_MAX = 150;
+const BAR_Y = CLOUD_HEIGHT - TEXT_HEIGHT;
 
-let renderCloud = (ctx, x, y, color) => {
+const renderCloud = (ctx, x, y, color) => {
   ctx.fillStyle = color;
   ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
 };
 
-let getMaxElement = (arr) => {
+const getMaxElement = (arr) => {
   let maxElement = arr[0];
 
   for (let i = 0; i < arr.length; i++) {
@@ -36,6 +36,8 @@ let getMaxElement = (arr) => {
 
   return maxElement;
 };
+
+const hsl = () => `hsl(` + 233 + `,` + (100 * Math.random()) + `%,` + (100 * Math.random()) + `%)`;
 
 window.renderStatistics = (ctx, players, times) => {
   renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, `rgba(0, 0, 0, 0.7)`);
@@ -54,33 +56,26 @@ window.renderStatistics = (ctx, players, times) => {
       CLOUD_Y + TEXT_GAP + TEXT_HEIGHT + TEXT_GAP
   );
 
-  let maxTime = getMaxElement(times);
+  const maxTime = getMaxElement(times);
 
   for (let i = 0; i < players.length; i++) {
+    const BAR_X = CLOUD_X + TEXT_GAP + (BAR_WIDTH + BAR_GAP) * i;
+    const TIME_Y = BAR_Y - TEXT_HEIGHT - (BAR_HEIGHT_MAX * times[i]) / maxTime;
+    const BAR_HEIGHT = -(BAR_HEIGHT_MAX * times[i]) / maxTime;
+
     ctx.fillStyle = `#000`;
-    ctx.fillText(
-        players[i],
-        CLOUD_X + TEXT_GAP + (BAR_WIDTH + BAR_GAP) * i,
-        CLOUD_HEIGHT
-    );
-    ctx.fillText(
-        Math.ceil(times[i]),
-        CLOUD_X + TEXT_GAP + (BAR_WIDTH + BAR_GAP) * i,
-        BAR_Y - TEXT_HEIGHT - (BAR_HEIGHT_MAX * times[i]) / maxTime
-    );
+
+    ctx.fillText(players[i], BAR_X, CLOUD_HEIGHT);
+
+    ctx.fillText(Math.ceil(times[i]), BAR_X, TIME_Y);
+
 
     if (players[i] === `Вы`) {
       ctx.fillStyle = `#ff0000`;
     } else {
-      let hsl = `hsl(` + 233 + `,` + (100 * Math.random()) + `%,` + (100 * Math.random()) + `%)`;
-      ctx.fillStyle = hsl;
+      ctx.fillStyle = hsl();
     }
 
-    ctx.fillRect(
-        CLOUD_X + TEXT_GAP + (BAR_WIDTH + BAR_GAP) * i,
-        BAR_Y,
-        BAR_WIDTH,
-        -1 * (BAR_HEIGHT_MAX * times[i]) / maxTime
-    );
+    ctx.fillRect(BAR_X, BAR_Y, BAR_WIDTH, BAR_HEIGHT);
   }
 };

@@ -8,11 +8,9 @@ const WIZARDS_AMMOUNT = 4;
 const wizardTemplate = document.querySelector(`#similar-wizard-template`).content.querySelector(`.setup-similar-item`);
 const wizardList = document.querySelector(`.setup-similar-list`);
 
-let setup = document.querySelector(`.setup`);
-setup.classList.remove(`hidden`);
 
 const getRandomInt = (maxInt) => {
-  let randomInt = Math.floor(Math.random() * maxInt);
+  const randomInt = Math.floor(Math.random() * maxInt);
   return randomInt;
 };
 
@@ -23,7 +21,7 @@ const getRandomArrayElement = (array) => {
 const createFeaturesList = () => {
   const wizardsFeatureArray = [];
   for (let i = 0; i < WIZARDS_AMMOUNT; i++) {
-    let wizardFeatures = {
+    const wizardFeatures = {
       name: getRandomArrayElement(NAMES) + ` ` + getRandomArrayElement(SURNAMES),
       coatColor: getRandomArrayElement(COAT_COLORS),
       eyeColor: getRandomArrayElement(EYE_COLORS)
@@ -54,3 +52,47 @@ for (let i = 0; i < wizardsFeatures.length; i++) {
 wizardList.appendChild(fragment);
 
 document.querySelector(`.setup-similar`).classList.remove(`hidden`);
+
+
+// Открытие/закрытие окна настройки персонажа
+
+const setupOpen = document.querySelector(`.setup-open`);
+const setupClose = document.querySelector(`.setup-close`);
+const setup = document.querySelector(`.setup`);
+const setupUserName = document.querySelector(`.setup-user-name`);
+const onEscEnterClose = (evt) => {
+  if (evt.key === `Escape` || (evt.key === `Enter` && evt.target.matches(`.setup-close`))) {
+    closePopup();
+  }
+};
+
+const closePopup = () => {
+  setup.classList.add(`hidden`);
+
+  document.removeEventListener(`keydown`, onEscEnterClose);
+};
+
+setupClose.addEventListener(`click`, function () {
+  closePopup();
+});
+
+const openPopup = () => {
+  setup.classList.remove(`hidden`);
+
+  document.addEventListener(`keydown`, onEscEnterClose);
+};
+
+setupUserName.addEventListener(`keydown`, function (evt) {
+  if (evt.key === `Escape`) {
+    evt.stopPropagation();
+  }
+});// Если фокус находится на форме ввода имени, то окно не закрывается.
+
+
+setupOpen.addEventListener(`click`, function () {
+  openPopup();
+});
+
+setupOpen.addEventListener(`keydown`, function () {
+  openPopup();
+});

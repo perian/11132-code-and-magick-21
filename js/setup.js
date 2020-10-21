@@ -9,23 +9,13 @@ const WIZARDS_AMMOUNT = 4;
 const wizardTemplate = document.querySelector(`#similar-wizard-template`).content.querySelector(`.setup-similar-item`);
 const wizardList = document.querySelector(`.setup-similar-list`);
 
-
-const getRandomInt = (maxInt) => {
-  const randomInt = Math.floor(Math.random() * maxInt);
-  return randomInt;
-};
-
-const getRandomArrayElement = (array) => {
-  return array[getRandomInt(array.length)];
-};
-
 const createFeaturesList = () => {
   const wizardsFeatureArray = [];
   for (let i = 0; i < WIZARDS_AMMOUNT; i++) {
     const wizardFeatures = {
-      name: getRandomArrayElement(NAMES) + ` ` + getRandomArrayElement(SURNAMES),
-      coatColor: getRandomArrayElement(COAT_COLORS),
-      eyeColor: getRandomArrayElement(EYES_COLORS)
+      name: window.utils.getRandomArrayElement(NAMES) + ` ` + window.utils.getRandomArrayElement(SURNAMES),
+      coatColor: window.utils.getRandomArrayElement(COAT_COLORS),
+      eyeColor: window.utils.getRandomArrayElement(EYES_COLORS)
     };
     wizardsFeatureArray.push(wizardFeatures);
   }
@@ -55,52 +45,6 @@ wizardList.appendChild(fragment);
 document.querySelector(`.setup-similar`).classList.remove(`hidden`);
 
 
-// Открытие/закрытие окна настройки персонажа
-
-const setupOpen = document.querySelector(`.setup-open`);
-const setupClose = document.querySelector(`.setup-close`);
-const setup = document.querySelector(`.setup`);
-const setupUserName = document.querySelector(`.setup-user-name`);
-const onEscEnterClose = (evt) => {
-  if (evt.key === `Escape` || (evt.key === `Enter` && evt.target.matches(`.setup-close`))) {
-    closePopup();
-  }
-};
-
-const closePopup = () => {
-  setup.classList.add(`hidden`);
-
-  document.removeEventListener(`keydown`, onEscEnterClose);
-};
-
-setupClose.addEventListener(`click`, function () {
-  closePopup();
-});
-
-const openPopup = () => {
-  setup.classList.remove(`hidden`);
-
-  document.addEventListener(`keydown`, onEscEnterClose);
-};
-
-setupUserName.addEventListener(`keydown`, function (evt) {
-  if (evt.key === `Escape`) {
-    evt.stopPropagation();
-  }
-});// Если фокус находится на форме ввода имени, то окно не закрывается.
-
-
-setupOpen.addEventListener(`click`, function () {
-  openPopup();
-});
-
-setupOpen.addEventListener(`keydown`, function () {
-  openPopup();
-});
-
-
-// Изменение цвета мантии, глаз и фаербола персонажа по нажатию
-
 const setupPlayer = document.querySelector(`.setup-player`);
 const setupWizard = setupPlayer.querySelector(`.setup-wizard`);
 const wizardCoat = setupWizard.querySelector(`.wizard-coat`);
@@ -111,16 +55,16 @@ const wizardEyesInput = setupPlayer.querySelector(`input[name="eyes-color"]`);
 const fireballInput = fireball.querySelector(`input[name="fireball-color"]`);
 
 wizardCoat.addEventListener(`click`, function () {
-  wizardCoatInput.value = getRandomArrayElement(COAT_COLORS);
+  wizardCoatInput.value = window.utils.getRandomArrayElement(COAT_COLORS);
   wizardCoat.style.fill = wizardCoatInput.value;
 });
 
 wizardEyes.addEventListener(`click`, function () {
-  wizardEyesInput.value = getRandomArrayElement(EYES_COLORS);
+  wizardEyesInput.value = window.utils.getRandomArrayElement(EYES_COLORS);
   wizardEyes.style.fill = wizardEyesInput.value;
 });
 
 fireball.addEventListener(`click`, function () {
-  fireballInput.value = getRandomArrayElement(FIREBALL_COLORS);
+  fireballInput.value = window.utils.getRandomArrayElement(FIREBALL_COLORS);
   fireball.style.backgroundColor = fireballInput.value;
 });

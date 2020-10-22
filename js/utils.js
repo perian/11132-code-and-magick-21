@@ -8,6 +8,11 @@
     },
     getRandomArrayElement: (array) => {
       return array[window.utils.getRandomInt(array.length)];
+    },
+    onEscEvt: (evt, action) => {
+      if (evt.key === `Escape`) {
+        action();
+      }
     }
   };
 })();

@@ -61,12 +61,12 @@
 
       let shiftCoordinates = {
         x: startCoordinates.x - moveEvt.clientX,
-        Y: startCoordinates.y - moveEvt.clientY,
+        y: startCoordinates.y - moveEvt.clientY,
       };
 
       startCoordinates = {
-        x: shiftCoordinates.clientX,
-        y: shiftCoordinates.clientY,
+        x: moveEvt.clientX,
+        y: moveEvt.clientY,
       };
 
       setup.style.top = (setup.offsetTop - shiftCoordinates.y) + `px`;
@@ -92,9 +92,4 @@
     popupHandle.addEventListener(`mousemove`, onMouseMove);
     popupHandle.addEventListener(`mouseup`, onMouseUp);
   });
-
-
-  // диалог должен начинать двигаться за курсором мыши при нажатии (mousedown) на блок .upload;
-  // диалог должен переставать двигаться за курсором мыши при отпускании (mouseup) кнопки мыши и оставаться на новом месте;
-  // при повторном открытии/закрытии диалога, положение диалога должно сбрасываться на изначальное.
 })();
